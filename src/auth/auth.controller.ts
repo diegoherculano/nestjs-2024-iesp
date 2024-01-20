@@ -10,6 +10,7 @@ interface IAuthController {
 export class AuthController implements IAuthController {
   constructor(private authService: AuthService) {}
 
+  // TODO: Implement signup
   @Post('signup')
   signup(body: AuthRequest): AuthResponse {
     console.log({ body });

@@ -47,6 +47,7 @@ export class TaskService implements ITaskService {
     localTask.done = task.done;
     return localTask;
   }
+  // TODO Implement deleteTask
   deleteTask(task: Task): Task {
     throw new Error('Method not implemented.');
   }
