@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+      gap: 10px
+  }
+</style>
+<body>
+
+<!-- https://shorturl.at/ajKOR -->
+<div class="root">
+  <ul></ul>
+
+  <form action="">
+    <input type="text" placeholder="Title">
+    <textarea placeholder="Description"></textarea>
+
+    <button type="submit">
+      Create
+    </button>
+  </form>
+
+</div>
+
+<script>
+  var root = document.querySelector('.root ul')
+
+  fetch('http://localhost:3000/task')
+    .then(function (response) {
+      return response.json()
+    })
+    .then(function (tasks) {
+      tasks.forEach(function (task) {
+        var element = document.createElement('li')
+        element.innerHTML = task.title
+        root.appendChild(element)
+      })
+    })
+</script>
+</body>
+</html>
