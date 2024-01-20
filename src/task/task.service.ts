@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 
 export type Task = {
   id: number;
@@ -30,10 +30,22 @@ export class TaskService implements ITaskService {
   }
 
   createTask(task: Task): Task {
-    throw new Error('Method not implemented.');
+    this.tasks.push({
+      id: new Date().getTime(),
+      ...task,
+    });
+    return task;
   }
   updateTask(task: Task): Task {
-    throw new Error('Method not implemented.');
+    const localTask = this.findOne(task.id);
+    if (!localTask) {
+      throw new HttpException('Task not found', 404);
+    }
+
+    localTask.title = task.title;
+    localTask.description = task.description;
+    localTask.done = task.done;
+    return localTask;
   }
   deleteTask(task: Task): Task {
     throw new Error('Method not implemented.');
@@ -41,5 +53,9 @@ export class TaskService implements ITaskService {
 
   listTasks(): Task[] {
     return this.tasks;
+  }
+
+  findOne(id: number): Task {
+    return this.tasks.find((item) => item.id === id);
   }
 }

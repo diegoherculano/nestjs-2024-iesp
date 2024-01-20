@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TaskModule } from './task/task.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -11,6 +13,12 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
       renderPath: '/client',
+    }),
+    AuthModule,
+    JwtModule.register({
+      global: true,
+      secret: 'super secret',
+      // signOptions: { expiresIn: '1s' },
     }),
   ],
   controllers: [AppController],
