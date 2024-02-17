@@ -7,6 +7,8 @@ import { AuthGuard } from '../auth/auth.guard';
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
+  // criar endpoints para editar e deletar tarefas
+
   @Get('/')
   listTasks(): Task[] {
     return this.taskService.listTasks();
