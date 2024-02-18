@@ -12,9 +12,8 @@ export class AuthController implements IAuthController {
 
   // TODO: Implement signup
   @Post('signup')
-  signup(body: AuthRequest): AuthResponse {
-    console.log({ body });
-    throw new Error('Method not implemented.');
+  signup(@Body() body: AuthRequest): AuthResponse {
+    return this.authService.signup(body);
   }
 
   @Post('login')

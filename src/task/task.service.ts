@@ -11,7 +11,7 @@ interface ITaskService {
   listTasks(): Task[];
   createTask(task: Task): Task;
   updateTask(task: Task): Task;
-  deleteTask(task: Task): Task;
+  deleteTask(id: number): boolean;
 }
 
 @Injectable()
@@ -36,6 +36,7 @@ export class TaskService implements ITaskService {
     });
     return task;
   }
+
   updateTask(task: Task): Task {
     const localTask = this.findOne(task.id);
     if (!localTask) {
@@ -47,9 +48,15 @@ export class TaskService implements ITaskService {
     localTask.done = task.done;
     return localTask;
   }
-  // TODO Implement deleteTask
-  deleteTask(task: Task): Task {
-    throw new Error('Method not implemented.');
+
+  deleteTask(id: number): boolean {
+    const findIndex = this.tasks.findIndex((item) => item.id == id);
+
+    if (findIndex === -1) return false;
+
+    this.tasks.splice(findIndex, 1);
+
+    return true;
   }
 
   listTasks(): Task[] {

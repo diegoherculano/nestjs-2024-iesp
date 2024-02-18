@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IsEmail, IsString, Length } from 'class-validator';
 
@@ -27,22 +27,35 @@ interface IAuthService {
 
 @Injectable()
 export class AuthService implements IAuthService {
-  users: User[];
+  users: User[] = [
+    {
+      username: 'test@gmail.com',
+      password: '123456',
+    },
+  ];
 
   constructor(private jwtService: JwtService) {}
 
   login(body: AuthRequest): AuthResponse {
-    // TODO
-    // Verificar se o usuário existe
+    const user = this.users.find(
+      (user) =>
+        user.username === body.username && user.password === body.password,
+    );
+
+    if (!user) {
+      throw new HttpException('User or Password incorrect', 404);
+    }
+
     return {
       access_token: this.jwtService.sign({ username: body.username }),
     };
   }
 
-  // TODO: Implement signup
-  // Salvar no objeto local users
-  // Retornar token
   signup(body: AuthRequest): AuthResponse {
-    throw new Error('Method not implemented.');
+    this.users.push(body);
+
+    return {
+      access_token: this.jwtService.sign({ username: body.username }),
+    };
   }
 }
